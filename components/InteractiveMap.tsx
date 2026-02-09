@@ -1,0 +1,64 @@
+"use client";
+import React, { useRef, useEffect, useState } from 'react';
+
+export default function InteractiveMap() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rotation = useRef(0);
+  const [userLocation, setUserLocation] = useState<{lon: number, lat: number} | null>(null);
+
+  useEffect(() => {
+    fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
+      if(data.longitude && data.latitude) {
+        setUserLocation({ lon: (data.longitude + 180) * (Math.PI / 180), lat: (90 - data.latitude) * (Math.PI / 180) });
+      }
+    }).catch(() => {});
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1000px-World_map_-_low_resolution.svg.png';
+    
+    let dots: { x: number, y: number }[] = [];
+    img.onload = () => {
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = 120; tempCanvas.height = 60;
+      tempCtx?.drawImage(img, 0, 0, 120, 60);
+      const data = tempCtx?.getImageData(0, 0, 120, 60).data;
+      if (data) {
+        for (let y = 0; y < 60; y++) {
+          for (let x = 0; x < 120; x++) {
+            if (data[(y * 120 + x) * 4 + 3] > 150) dots.push({ x: (x / 120) * Math.PI * 2, y: (y / 60) * Math.PI });
+          }
+        }
+      }
+    };
+
+    const render = () => {
+      canvas.width = canvas.parentElement?.clientWidth || 0;
+      canvas.height = canvas.parentElement?.clientHeight || 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      rotation.current += 0.005;
+      const radius = Math.min(canvas.width, canvas.height) * 0.4;
+
+      dots.forEach(dot => {
+        const lon = dot.x + rotation.current;
+        const z = Math.cos(lon) * Math.sin(dot.y);
+        if (z > 0) {
+          const x = Math.sin(lon) * Math.sin(dot.y) * radius + canvas.width / 2;
+          const y = -Math.cos(dot.y) * radius + canvas.height / 2;
+          ctx.fillStyle = '#5227ff'; ctx.globalAlpha = z * 0.7;
+          ctx.beginPath(); ctx.arc(x, y, z * 1.5, 0, Math.PI * 2); ctx.fill();
+        }
+      });
+      requestAnimationFrame(render);
+    };
+    render();
+  }, [userLocation]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 z-10 touch-none" />;
+}
