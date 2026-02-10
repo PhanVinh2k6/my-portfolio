@@ -1,22 +1,31 @@
 "use client";
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 export default function InteractiveMap() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rotation = useRef(0);
-  const [userLocation, setUserLocation] = useState<{lon: number, lat: number} | null>(null);
+  const isDragging = useRef(false);
+  const lastPointerX = useRef(0);
 
   useEffect(() => {
-    fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
-      if(data.longitude && data.latitude) {
-        setUserLocation({ lon: (data.longitude + 180) * (Math.PI / 180), lat: (90 - data.latitude) * (Math.PI / 180) });
-      }
-    }).catch(() => {});
+    const canvas = canvasRef.current; if (!canvas) return;
+    const ctx = canvas.getContext('2d'); if (!ctx) return;
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    // Interaction handlers
+    const handleStart = (x: number) => { isDragging.current = true; lastPointerX.current = x; };
+    const handleMove = (x: number) => {
+      if (!isDragging.current) return;
+      rotation.current += (x - lastPointerX.current) * 0.005;
+      lastPointerX.current = x;
+    };
+    const handleEnd = () => { isDragging.current = false; };
+
+    canvas.addEventListener('mousedown', (e) => handleStart(e.clientX));
+    window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+    window.addEventListener('mouseup', handleEnd);
+    canvas.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX));
+    window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX));
+    window.addEventListener('touchend', handleEnd);
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -28,24 +37,27 @@ export default function InteractiveMap() {
       const tempCtx = tempCanvas.getContext('2d');
       tempCanvas.width = 120; tempCanvas.height = 60;
       tempCtx?.drawImage(img, 0, 0, 120, 60);
-      try {
-        const data = tempCtx?.getImageData(0, 0, 120, 60).data;
-        if (data) {
-          for (let y = 0; y < 60; y++) {
-            for (let x = 0; x < 120; x++) {
-              if (data[(y * 120 + x) * 4 + 3] > 150) dots.push({ x: (x / 120) * Math.PI * 2, y: (y / 60) * Math.PI });
-            }
+      const data = tempCtx?.getImageData(0, 0, 120, 60).data;
+      if (data) {
+        for (let y = 0; y < 60; y++) {
+          for (let x = 0; x < 120; x++) {
+            if (data[(y * 120 + x) * 4 + 3] > 150) dots.push({ x: (x / 120) * Math.PI * 2, y: (y / 60) * Math.PI });
           }
         }
-      } catch (e) {}
+      }
     };
 
     const render = () => {
       canvas.width = canvas.parentElement?.clientWidth || 0;
       canvas.height = canvas.parentElement?.clientHeight || 0;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      rotation.current += 0.005;
-      const radius = Math.min(canvas.width, canvas.height) * 0.4;
+      
+      // QUAY TỊNH TIẾN KHI KHÔNG VUỐT
+      if (!isDragging.current) {
+        rotation.current += 0.003; 
+      }
+
+      const radius = Math.min(canvas.width, canvas.height) * 0.45;
       dots.forEach(dot => {
         const lon = dot.x + rotation.current;
         const z = Math.cos(lon) * Math.sin(dot.y);
@@ -53,13 +65,13 @@ export default function InteractiveMap() {
           const x = Math.sin(lon) * Math.sin(dot.y) * radius + canvas.width / 2;
           const y = -Math.cos(dot.y) * radius + canvas.height / 2;
           ctx.fillStyle = '#5227ff'; ctx.globalAlpha = z * 0.7;
-          ctx.beginPath(); ctx.arc(x, y, z * 1.5, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(x, y, z * 1.6, 0, Math.PI * 2); ctx.fill();
         }
       });
       requestAnimationFrame(render);
     };
     render();
-  }, [userLocation]);
+  }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-10 touch-none" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 z-10 touch-none cursor-grab active:cursor-grabbing" />;
 }
