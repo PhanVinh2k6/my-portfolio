@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CircularText from '../components/CircularText';
 import RotatingText from '../components/RotatingText';
-import Squares from '../components/Squares';
 import InteractiveMap from '../components/InteractiveMap';
 
 export default function Home() {
@@ -23,10 +22,6 @@ export default function Home() {
 
   return (
     <main className="relative h-screen w-full overflow-y-auto overflow-x-hidden bg-black font-sans text-white selection:bg-[#5227ff] scroll-smooth snap-y snap-mandatory border-r border-white/5">
-      <div className="fixed inset-0 z-0 opacity-10 pointer-events-none">
-        <Squares direction="diagonal" speed={0.4} squareSize={40} borderColor="#333" />
-      </div>
-
       {stage === 'content' && (
         <motion.button 
           onClick={() => setIsMenuOpen(!isMenuOpen)} 
