@@ -7,7 +7,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Phan Vinh | Creative Developer",
-  description: "Portfolio 2026 của Phan Vinh - ICTU",
+  description: "Portfolio của Phan Vinh - ICTU",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
