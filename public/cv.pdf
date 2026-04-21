@@ -1,0 +1,138 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources <<
+/Font <<
+/F1 <<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica-Bold
+>>
+/F2 <<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+>>
+>>
+>>
+endobj
+4 0 obj
+<<
+/Length 1500
+>>
+stream
+BT
+/F1 24 Tf
+50 750 Td
+(PHAN VINH) Tj
+0 -30 Td
+/F2 12 Tf
+(Full-Stack Developer & AI Researcher) Tj
+0 -40 Td
+/F1 14 Tf
+(CONTACT) Tj
+0 -20 Td
+/F2 11 Tf
+(Email: contact@phanvinh.dev) Tj
+0 -15 Td
+(Phone: +84 123 456 789) Tj
+0 -15 Td
+(Location: Thai Nguyen, Vietnam) Tj
+0 -15 Td
+(GitHub: github.com/PhanVinh2k6) Tj
+0 -30 Td
+/F1 14 Tf
+(PROFESSIONAL SUMMARY) Tj
+0 -20 Td
+/F2 11 Tf
+(Ambitious IT student at ICTU with strong foundation in full-stack) Tj
+0 -15 Td
+(web development and artificial intelligence research.) Tj
+0 -15 Td
+(Experienced in building scalable applications using modern) Tj
+0 -15 Td
+(technologies including Next.js, React, TypeScript, and Python.) Tj
+0 -30 Td
+/F1 14 Tf
+(TECHNICAL SKILLS) Tj
+0 -20 Td
+/F2 11 Tf
+(Languages: JavaScript, TypeScript, Python, SQL) Tj
+0 -15 Td
+(Frontend: React, Next.js, Tailwind CSS, HTML/CSS) Tj
+0 -15 Td
+(Backend: Node.js, Express, Python Django) Tj
+0 -15 Td
+(Tools: Git, Docker, AWS, Firebase) Tj
+0 -30 Td
+/F1 14 Tf
+(EXPERIENCE) Tj
+0 -20 Td
+/F2 11 Tf
+(Full-Stack Developer Intern | ABC Tech Company) Tj
+0 -15 Td
+(Jun 2024 - Present | Remote) Tj
+0 -15 Td
+(- Developed responsive web applications using Next.js and React) Tj
+0 -15 Td
+(- Implemented REST APIs and database optimization) Tj
+0 -15 Td
+(- Collaborated with design team on UI/UX improvements) Tj
+0 -30 Td
+/F1 14 Tf
+(EDUCATION) Tj
+0 -20 Td
+/F2 11 Tf
+(B.S. Information Technology) Tj
+0 -15 Td
+(Thai Nguyen University of Information and Communication Technology) Tj
+0 -15 Td
+(Expected Graduation: 2026 | GPA: 3.8/4.0) Tj
+0 -30 Td
+/F1 14 Tf
+(PROJECTS) Tj
+0 -20 Td
+/F2 11 Tf
+(Victory Football - Pitch Management System) Tj
+0 -15 Td
+(Modern web app for managing football pitches and bookings) Tj
+0 -30 Td
+(CRM AI Research - Vietnam Post Integration) Tj
+0 -15 Td
+(AI-powered CRM system integrated with Vietnam Post services) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000440 00000 n 
+trailer
+<<
+/Size 5
+/Root 1 0 R
+>>
+startxref
+2040
+%%EOF
