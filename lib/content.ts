@@ -29,6 +29,23 @@ export type Post = {
 
 export const projects: Project[] = [
   {
+    slug: 'atlas-knowledge',
+    number: '03',
+    title: 'Atlas Knowledge',
+    eyebrow: 'Web product',
+    category: 'Product systems',
+    visual: 'crm',
+    shortDescription: 'A calm knowledge workspace for turning scattered research into connected decisions.',
+    description: 'Atlas Knowledge is a concept for a personal research workspace that makes notes, references and decisions easier to revisit.',
+    year: '2026',
+    role: 'Product direction, UX system, frontend prototype',
+    stack: ['Next.js', 'TypeScript', 'Local-first', 'Search'],
+    challenge: 'Research tends to disappear into tabs, bookmarks and half-finished documents. Atlas asks how a knowledge tool can preserve context instead of only collecting content.',
+    approach: ['Capture a thought without interrupting the work.', 'Connect notes through decisions, not just tags.', 'Keep the interface useful when the network is unavailable.'],
+    outcome: 'A product direction for a resilient research workspace with quick capture, connected context and an intentionally quiet reading surface.',
+    accent: 'blue',
+  },
+  {
     slug: 'victory-football',
     number: '01',
     title: 'Victory Football',
@@ -91,6 +108,20 @@ export const posts: Post[] = [
       { heading: 'Start with the day, not the feature list', paragraphs: ['A feature list tells you what a product contains. A day-in-the-life story tells you what the product needs to make possible.', 'For Victory Football, the useful starting point was the matchday itself: what has to be known, when it has to be known, and who needs to act.'] },
       { heading: 'Make the invisible visible', paragraphs: ['Good systems expose the state of a process. They show what is happening, what is blocked and what needs attention next. This is often more valuable than adding more functionality.'] },
       { heading: 'Build the smallest honest model', paragraphs: ['Before reaching for a complex architecture, I try to model the smallest version that explains the problem. If the model is clear, the interface usually has a better chance of being clear too.'] },
+    ],
+  },
+  {
+    slug: 'shipping-small-products-in-public',
+    number: '04',
+    title: 'Shipping small products in public',
+    excerpt: 'What changes when you let a real release teach you more than a perfect plan.',
+    date: '14.03.2026',
+    readTime: '4 min read',
+    category: 'Building in public',
+    body: [
+      { heading: 'A release is a question', paragraphs: ['I used to think shipping was the final step of building. Now I see it as the first useful question: does this help someone enough to come back?', 'A small release creates a tighter loop between an idea and the people who have to live with it.'] },
+      { heading: 'Keep the surface small', paragraphs: ['The best early version is not the one with the fewest ideas. It is the one that makes one promise clearly and gives you enough signal to improve the next version.', 'That usually means choosing a narrow workflow, writing down the assumptions and resisting the urge to hide uncertainty behind polish.'] },
+      { heading: 'Build a rhythm', paragraphs: ['Small products become stronger when they have a rhythm: observe, decide, ship, listen. The loop is more important than any single launch.'] },
     ],
   },
   {

@@ -39,3 +39,11 @@ The site includes generated Open Graph and Twitter preview images at `/opengraph
 ## Content features
 
 The `/blog` page includes client-side keyword search across article title, excerpt, category, and body content, plus category chips. The homepage Selected Work section includes category filtering for Product systems and AI & research. Blog and project content lives in `lib/content.ts`, so new entries can be added without changing route components.
+
+## Side web
+
+The `/play` route contains **Signal Sprint**, a 20-second reaction mini-game with a local high score. It registers a small service worker and caches the core shell so the game can be reopened offline after the first visit.
+
+## Deployment
+
+See [DEPLOY.md](./DEPLOY.md) for Vercel deployment, GA4 environment setup, custom domain, social preview and production security checklist.

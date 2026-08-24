@@ -8,6 +8,7 @@ export default function PageHeader() {
       <nav className="page-header-nav" aria-label="Page navigation">
         <Link href="/#work">Work</Link>
         <Link href="/blog">Blog</Link>
+        <Link href="/play">Play</Link>
         <Link href="/#about">About</Link>
         <Link href="/#contact">Let&apos;s talk</Link>
       </nav>
