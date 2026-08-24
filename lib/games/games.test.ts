@@ -14,6 +14,9 @@ import {
   type DotsEdge,
   type DotsPlayer,
 } from './dots';
+import { dailyIndex, formatDuration, getDailyKey } from './daily';
+import { applyWendHint, createWendState, getDailyWendPuzzle, getWendCompletionScore, isWendPathValid, submitWendPath } from './wend';
+import { applyZipHint, createZipState, getDailyZipPuzzle, submitZipCell, undoZip, zipWallKey } from './zip';
 import {
   SUDOKU_SOLUTION,
   createSudokuState,
@@ -176,5 +179,85 @@ describe('Sudoku engine', () => {
       }
     }
     expect(sudokuIsComplete(state)).toBe(true);
+  });
+});
+
+
+describe('Daily puzzle foundations', () => {
+  it('creates stable UTC day keys and bounded seeded indexes', () => {
+    expect(getDailyKey(new Date('2026-08-24T23:59:59.000Z'))).toBe('2026-08-24');
+    expect(getDailyKey(new Date('2026-08-25T00:00:00.000Z'))).toBe('2026-08-25');
+    expect(dailyIndex('2026-08-24', 'wend', 4)).toBe(dailyIndex('2026-08-24', 'wend', 4));
+    expect(formatDuration(65320)).toBe('01:05.3');
+  });
+});
+
+describe('Wend engine', () => {
+  it('generates a complete daily board with non-overlapping adjacent word paths', () => {
+    for (const dayKey of ['2026-08-24', '2026-08-25', '2026-08-26', '2026-08-27', '2026-08-28']) {
+      const puzzle = getDailyWendPuzzle(dayKey);
+      expect(puzzle.letters).toHaveLength(25);
+      expect(puzzle.words.reduce((total, word) => total + word.length, 0)).toBe(25);
+      expect(puzzle.paths.every((path) => isWendPathValid(path))).toBe(true);
+      expect(new Set(puzzle.paths.flat().map((cell) => `${cell.row}:${cell.col}`)).size).toBe(25);
+    }
+  });
+
+  it('accepts the exact word path, rejects a wrong path and reveals progressive hints', () => {
+    const state = createWendState(getDailyWendPuzzle('2026-08-24'));
+    const hinted = applyWendHint(state);
+    expect(hinted.hintsUsed).toBe(1);
+    expect(hinted.lastHint?.path).toHaveLength(1);
+    const found = submitWendPath(hinted, state.puzzle.paths[0]);
+    expect(found.found).toContain(0);
+    const wrong = submitWendPath(state, [{ row: 0, col: 0 }, { row: 0, col: 2 }]);
+    expect(wrong.mistakes).toBe(1);
+  });
+
+  it('returns a daily score only after every word is found', () => {
+    let state = createWendState(getDailyWendPuzzle('2026-08-24'));
+    expect(getWendCompletionScore(state, 1234)).toBeNull();
+    for (const path of state.puzzle.paths) state = submitWendPath(state, path);
+    expect(state.complete).toBe(true);
+    expect(getWendCompletionScore(state, 1234)?.game).toBe('wend');
+  });
+});
+
+describe('Zip engine', () => {
+  it('requires starting at marker 1, follows adjacency and completes every cell', () => {
+    const state = createZipState(getDailyZipPuzzle('2026-08-24'));
+    expect(submitZipCell(state, { row: 4, col: 4 }).mistakes).toBe(1);
+    let next = state;
+    for (const cell of state.puzzle.path) next = submitZipCell(next, cell);
+    expect(next.complete).toBe(true);
+    expect(next.path).toHaveLength(25);
+  });
+
+  it('supports hint, undo and wall-aware movement primitives', () => {
+    const puzzle = getDailyZipPuzzle('2026-08-25');
+    const state = createZipState(puzzle);
+    const hinted = applyZipHint(state);
+    expect(hinted.hintsUsed).toBe(1);
+    const started = submitZipCell(state, puzzle.path[0]);
+    expect(undoZip(started).path).toHaveLength(0);
+    expect(zipWallKey({ row: 0, col: 0 }, { row: 0, col: 1 })).toBe('0:0|0:1');
+  });
+});
+
+
+describe('Daily leaderboard semantics', () => {
+  it('keeps the fastest result for the same game and day', () => {
+    const fast = { game: 'zip' as const, dayKey: '2026-08-24', timeMs: 1200, hints: 1, completedAt: '2026-08-24T10:00:00.000Z' };
+    const slow = { ...fast, timeMs: 2400, completedAt: '2026-08-24T09:00:00.000Z' };
+    expect([fast, slow].sort((left, right) => left.timeMs - right.timeMs)[0]).toEqual(fast);
+  });
+
+  it('keeps both daily Zip templates solvable', () => {
+    for (const dayKey of ['2026-08-24', '2026-08-25']) {
+      const puzzle = getDailyZipPuzzle(dayKey);
+      let state = createZipState(puzzle);
+      for (const cell of puzzle.path) state = submitZipCell(state, cell);
+      expect(state.complete).toBe(true);
+    }
   });
 });

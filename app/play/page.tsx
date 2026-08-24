@@ -8,14 +8,14 @@ import OfflineRegistration from '@/components/OfflineRegistration';
 
 export const metadata: Metadata = {
   title: 'Play — Offline game hub',
-  description: 'Một game hub offline-first với những trò chơi nhỏ do Phan Vinh xây dựng.',
+  description: 'Signal Room là game hub offline-first với daily puzzle Wend và Zip, Hint, timer, local leaderboard cùng bốn trò chơi replay.',
 };
 
 export default function PlayPage() {
   return (
     <main className="subpage-shell play-shell"><OfflineRegistration />
       <PageHeader />
-      <div className="play-hero page-grid"><div className="section-kicker"><span>06</span><span>Small side web</span></div><div><p className="eyebrow"><WifiOff size={13} /> Offline-ready experiment</p><h1>Play<br /><em>mode.</em></h1><p className="subpage-intro">Bốn trò chơi nhỏ, một game room yên tĩnh. Chọn một game, chạm vào màn hình và chơi ngay — kể cả khi mất mạng.</p></div></div>
+      <div className="play-hero page-grid"><div className="section-kicker"><span>06</span><span>Small side web</span></div><div><p className="eyebrow"><WifiOff size={13} /> Offline-ready experiment</p><h1>Play<br /><em>mode.</em></h1><p className="subpage-intro">Sáu trò chơi nhỏ, một game room yên tĩnh. Mỗi ngày có Wend và Zip mới; bốn game còn lại luôn sẵn để chơi lại — kể cả khi mất mạng.</p></div></div>
       <ArcadeLoader variant="play" />
       <GameHub />
       <footer className="subpage-footer"><Link href="/"><ArrowLeft size={14} /> Back to portfolio</Link><Link href="/blog">Read the notes <ArrowUpRight size={14} /></Link></footer>

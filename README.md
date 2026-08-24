@@ -30,16 +30,18 @@ The deterministic tests live in `lib/games/games.test.ts` and exercise engine ru
 
 `app/page.tsx` is the Signal Room homepage. `app/blog/**` and `app/projects/**` contain statically generated journal and case-study routes. `app/play/page.tsx` hosts the arcade shell. `components/GameHub.tsx` selects the active game, while the game components own presentation state and call pure engines under `lib/games/`.
 
-The four games are deliberately explicit about their supported modes:
+The six games are deliberately explicit about their supported modes:
 
 | Game | Modes | Rules |
 | --- | --- | --- |
+| Wend | Daily / solo | 5×5 word paths; every letter is used once |
+| Zip | Daily / solo | One path through every cell in marker order |
 | Signal Sprint | Solo | Twenty-second reflex game with local best score |
 | Caro / Gomoku | Bot or 2 local players | 9×9 board; five in a row wins |
 | Sudoku | Solo | Engine-backed puzzle, validation, clearing and completion |
 | Dots & Boxes | Bot or 2–4 local players | 3×3 boxes; closing a box awards a point and an extra turn |
 
-“Local players” means people sharing the same device. There is no realtime online multiplayer, account system or leaderboard, and no backend is added solely to imply one.
+“Local players” means people sharing the same device. Wend and Zip use a deterministic UTC daily key, Hint support, completion timers and local-device best times. There is no realtime online multiplayer, account system or fake global leaderboard, and no backend is added solely to imply one.
 
 ## Preserved platform features
 
@@ -62,4 +64,4 @@ See [DEPLOY.md](./DEPLOY.md) for Vercel import, GA4 environment configuration, c
 
 ## Homepage sections
 
-The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, and the final contact block states availability and the best next step.
+The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, and the final contact block states availability and the best next step. The Play hub leads with two deterministic daily puzzles and keeps the remaining four games available for replay.

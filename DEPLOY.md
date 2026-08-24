@@ -73,9 +73,9 @@ Sau deploy, dùng các công cụ sau để kiểm tra:
 
 ## 5. Kiểm tra arcade offline trước production
 
-Service worker là progressive enhancement và chỉ được đăng ký trên `/play`. Sau khi deploy, mở `/play` một lần khi có mạng, chờ registration hoàn tất trong DevTools Application → Service Workers, sau đó kiểm tra cache storage có shell và asset cùng origin. Có thể mô phỏng offline bằng Network → Offline rồi reload `/play`. Game core vẫn phải render và chạy ở first load bình thường nếu service worker chưa active.
+Service worker là progressive enhancement và chỉ được đăng ký trên `/play`. Sau khi deploy, mở `/play` một lần khi có mạng, chờ registration hoàn tất trong DevTools Application → Service Workers, sau đó kiểm tra cache storage có shell và asset cùng origin. Có thể mô phỏng offline bằng Network → Offline rồi reload `/play`. Sau đó mở Wend hoặc Zip, kiểm tra ngày hiện tại, bấm Start, thử Hint và hoàn thành một puzzle để xác nhận timer cùng local leaderboard. Game core vẫn phải render và chạy ở first load bình thường nếu service worker chưa active.
 
-Bốn mode hiện có là Signal Sprint solo, Caro/Gomoku với bot hoặc 2 local players, Sudoku solo và Dots & Boxes với bot hoặc 2–4 local players. “Local” là chuyền cùng thiết bị; production không quảng bá realtime online multiplayer.
+Sáu mode hiện có gồm Wend và Zip là daily puzzle deterministic, Signal Sprint solo, Caro/Gomoku với bot hoặc 2 local players, Sudoku solo và Dots & Boxes với bot hoặc 2–4 local players. Wend yêu cầu nối các từ bằng ô kề nhau, còn Zip yêu cầu đi một đường qua mọi ô theo thứ tự marker. Cả hai có Hint, timer completion và local-device best times. “Local” là chuyền cùng thiết bị; production không quảng bá realtime online multiplayer hay global leaderboard giả.
 
 Trước khi deploy, chạy release gate:
 
