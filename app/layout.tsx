@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const siteUrl = 'https://phanvinh.id.vn';
 
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
     siteName: 'Phan Vinh',
     locale: 'vi_VN',
     type: 'website',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Phan Vinh — Product-minded Developer' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Phan Vinh — Product-minded Developer',
     description: 'Selected work, approach and experiments by Phan Vinh.',
+    images: ['/twitter-image'],
   },
   robots: { index: true, follow: true },
 };
@@ -46,6 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: `try { const saved = localStorage.getItem('portfolio-theme'); const preferred = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.classList.toggle('dark', (saved || preferred) === 'dark'); } catch (error) {}` }} />
       </head>
       <body>
+        <GoogleAnalytics />
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           '@context': 'https://schema.org',

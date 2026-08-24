@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
+import ProjectExplorer from '@/components/ProjectExplorer';
+import { projects } from '@/lib/content';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -33,38 +35,6 @@ function SectionKicker({ number, children }: { number: string; children: React.R
     <div className="section-kicker">
       <span>{number}</span>
       <span>{children}</span>
-    </div>
-  );
-}
-
-function ProjectVisual({ type }: { type: 'football' | 'crm' }) {
-  if (type === 'football') {
-    return (
-      <div className="project-visual football-visual" aria-hidden="true">
-        <div className="visual-window-bar"><i /><i /><i /><span>victory / matchday</span></div>
-        <div className="football-layout">
-          <div className="football-sidebar"><b>V</b><span /><span /><span /><span /></div>
-          <div className="football-main">
-            <div className="football-heading"><small>Saturday, 14 June</small><strong>Matchday overview</strong></div>
-            <div className="score-card"><div><small>Home</small><b>VCT</b></div><strong>03 : 01</strong><div className="score-away"><small>Away</small><b>RVR</b></div></div>
-            <div className="football-stats"><span /><span /><span /><span /></div>
-            <div className="football-table"><b>Upcoming sessions</b><em>17:30&nbsp; — &nbsp;Training / Pitch 02</em><em>19:00&nbsp; — &nbsp;League fixture / Pitch 01</em></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="project-visual crm-visual" aria-hidden="true">
-      <div className="crm-orbit orbit-one" /><div className="crm-orbit orbit-two" />
-      <div className="crm-header"><span>CRM intelligence</span><b>● live model</b></div>
-      <div className="crm-grid">
-        <div className="crm-metric"><small>Leads qualified</small><strong>84.6%</strong><span>+12.8%</span></div>
-        <div className="crm-metric"><small>Response time</small><strong>1.4<span>h</span></strong><span>−34.2%</span></div>
-        <div className="crm-chart"><small>Pipeline momentum</small><div className="chart-line"><i /><i /><i /><i /><i /><i /><i /></div></div>
-      </div>
-      <div className="crm-footer"><span>Vietnam Post / Research node</span><span>AI&nbsp;&nbsp;·&nbsp;&nbsp;CRM&nbsp;&nbsp;·&nbsp;&nbsp;DATA</span></div>
     </div>
   );
 }
@@ -164,16 +134,7 @@ export default function Home() {
           <SectionKicker number="01">Selected work</SectionKicker>
           <div><h2>Work that makes<br /><em>the complex feel clear.</em></h2><p>Two ongoing explorations across product design, management systems, and applied AI. Each project is a chance to turn a messy problem into a sharper experience.</p></div>
         </div>
-        <div className="projects-grid">
-          <Link href="/projects/victory-football" className="project-card project-card-large scroll-reveal" data-reveal>
-            <ProjectVisual type="football" />
-            <div className="project-meta"><div><span>01 — Product system</span><h3>Victory Football</h3><p>A pitch and matchday management system designed to keep teams moving together.</p></div><ArrowUpRight className="project-arrow" size={22} /></div>
-          </Link>
-          <Link href="/projects/crm-intelligence" className="project-card scroll-reveal reveal-delay-1" data-reveal>
-            <ProjectVisual type="crm" />
-            <div className="project-meta"><div><span>02 — AI / Research</span><h3>CRM Intelligence</h3><p>Exploring smarter customer operations with data, automation, and a human point of view.</p></div><ArrowUpRight className="project-arrow" size={22} /></div>
-          </Link>
-        </div>
+        <ProjectExplorer projects={projects} />
         <div className="work-footnote scroll-reveal" data-reveal><span>More work is in progress</span><div className="work-links"><Link href="/blog">Read the notes <ArrowUpRight size={14} /></Link><a href="https://github.com/PhanVinh2k6" target="_blank" rel="noreferrer">View GitHub profile <ArrowUpRight size={14} /></a></div></div>
       </section>
 

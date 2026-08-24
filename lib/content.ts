@@ -3,6 +3,8 @@ export type Project = {
   number: string;
   title: string;
   eyebrow: string;
+  category: string;
+  visual: 'football' | 'crm';
   shortDescription: string;
   description: string;
   year: string;
@@ -31,6 +33,8 @@ export const projects: Project[] = [
     number: '01',
     title: 'Victory Football',
     eyebrow: 'Product system',
+    category: 'Product systems',
+    visual: 'football',
     shortDescription: 'A pitch and matchday management system designed to keep teams moving together.',
     description: 'Victory Football brings fixtures, pitch availability and team communication into one calm operating surface.',
     year: '2025—26',
@@ -46,6 +50,8 @@ export const projects: Project[] = [
     number: '02',
     title: 'CRM Intelligence',
     eyebrow: 'AI / Research',
+    category: 'AI & research',
+    visual: 'crm',
     shortDescription: 'Exploring smarter customer operations with data, automation and a human point of view.',
     description: 'CRM Intelligence is an ongoing research project around useful automation for customer operations and Vietnamese business workflows.',
     year: '2025—26',
