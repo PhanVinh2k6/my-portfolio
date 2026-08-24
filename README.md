@@ -1,10 +1,8 @@
-# Phan Vinh — Portfolio
+# Phan Vinh — Signal Room
 
-Personal portfolio for **Phan Vinh**, an Information Technology student and product-minded developer based in Thai Nguyen, Vietnam.
+Signal Room is a premium editorial portfolio and offline arcade for **Phan Vinh**, an IT student and product-minded developer based in Thai Nguyen, Vietnam. The public experience presents selected product work, a personal journal and a direct contact path; the `/play` route opens a small, tactile game room built to remain useful when a network connection is not available.
 
-The site uses an editorial visual system with a warm paper canvas, cobalt accent, serif display typography, and lightweight CSS motion. It presents selected work, working approach, background, capabilities, and a direct contact path in one responsive landing page.
-
-Visit the live portfolio at [phanvinh.id.vn](https://phanvinh.id.vn).
+The visual system combines warm paper, cobalt blue, ink black, oversized editorial typography, thin instrumentation lines and acid-lime signal details. The site is intentionally work-first, while the arcade uses the same design language with a console-style entry sequence. Visit the live portfolio at [phanvinh.id.vn](https://phanvinh.id.vn).
 
 ## Run locally
 
@@ -13,41 +11,50 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in a browser.
+Open [http://localhost:3000](http://localhost:3000) in a browser. The normal first load works without a service worker; visiting `/play` once allows the progressive offline layer to warm its cache.
 
-## Verify production build
+## Verify a release
 
 ```bash
 npm run lint
+npm test
 npm run build
+npm audit --audit-level=high
+git diff --check
 npm start
 ```
 
-## Project structure
+The deterministic tests live in `lib/games/games.test.ts` and exercise engine rules without React or browser APIs.
 
-- `app/page.tsx` — homepage content and interactive navigation.
-- `app/globals.css` — design tokens, responsive layout, visual system, and motion.
-- `app/layout.tsx` — metadata and document shell.
-- `public/` — small static assets only.
+## Product structure
+
+`app/page.tsx` is the Signal Room homepage. `app/blog/**` and `app/projects/**` contain statically generated journal and case-study routes. `app/play/page.tsx` hosts the arcade shell. `components/GameHub.tsx` selects the active game, while the game components own presentation state and call pure engines under `lib/games/`.
+
+The four games are deliberately explicit about their supported modes:
+
+| Game | Modes | Rules |
+| --- | --- | --- |
+| Signal Sprint | Solo | Twenty-second reflex game with local best score |
+| Caro / Gomoku | Bot or 2 local players | 9×9 board; five in a row wins |
+| Sudoku | Solo | Engine-backed puzzle, validation, clearing and completion |
+| Dots & Boxes | Bot or 2–4 local players | 3×3 boxes; closing a box awards a point and an extra turn |
+
+“Local players” means people sharing the same device. There is no realtime online multiplayer, account system or leaderboard, and no backend is added solely to imply one.
+
+## Preserved platform features
+
+The app retains static blog/project content, blog search and category filtering, project filtering, light/dark theme switching, responsive layouts, generated Open Graph and Twitter image routes, canonical metadata, JSON-LD, `robots.txt`, `sitemap.xml`, opt-in GA4, defensive security headers and Vercel deployment guidance.
+
+`public/sw.js` is a versioned progressive service worker. It precaches the homepage, Play shell and manifest, uses network-first navigation with an offline fallback, and uses runtime cache-first behavior for same-origin assets. It must never be treated as a prerequisite for the game engines.
 
 ## Analytics and social previews
 
-To enable Google Analytics 4, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_GA_ID` to the Measurement ID from your GA4 property. The analytics scripts load only when the variable is present and use `afterInteractive` loading so an unconfigured local build adds no tracking request.
+To enable Google Analytics 4, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_GA_ID` to the Measurement ID from the GA4 property. Tracking is injected only when the variable is configured. The social preview endpoints are `/opengraph-image` and `/twitter-image`.
 
-The site includes generated Open Graph and Twitter preview images at `/opengraph-image` and `/twitter-image`. Root metadata also exposes canonical URLs, descriptions, social images, JSON-LD, `robots.txt`, and `sitemap.xml`.
+## Content and assets
 
-## Content features
+Journal and project entries are maintained in `lib/content.ts`. The primary arcade visual is the optimized local asset `public/arcade-keyvisual.webp`; the deleted heavy JPG is intentionally not part of the project. Rebuild context and design decisions are documented in `PLAN.md`, `STRUCTURE.md`, `MEMORY.md` and `ASSETS.md`.
 
-The `/blog` page includes client-side keyword search across article title, excerpt, category, and body content, plus category chips. The homepage Selected Work section includes category filtering for Product systems and AI & research. Blog and project content lives in `lib/content.ts`, so new entries can be added without changing route components.
+## Deployment and security
 
-## Side web
-
-The `/play` route contains **Signal Sprint**, a 20-second reaction mini-game with a local high score. It registers a small service worker and caches the core shell so the game can be reopened offline after the first visit.
-
-## Deployment
-
-See [DEPLOY.md](./DEPLOY.md) for Vercel deployment, GA4 environment setup, custom domain, social preview and production security checklist.
-
-## Arcade game hub
-
-The `/play` route is now an offline-first game hub with four small games: Signal Sprint, Caro vs Bot, Sudoku, and Dots & Boxes. Each game runs entirely in the browser with no account or API dependency. The hub includes a responsive touch-friendly interface, an arcade-machine loading sequence on entry, and a PWA manifest/service worker for returning to the experience offline.
+See [DEPLOY.md](./DEPLOY.md) for Vercel import, GA4 environment configuration, custom domain, social preview and production security checks. The project is static-first and has no user-data API. Security work should remain defensive: dependency audits, CSP/header verification, crawlability and controlled preview checks are appropriate; generating DDoS/DoS traffic is not.

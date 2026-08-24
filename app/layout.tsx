@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
-import ArcadeLoader from '@/components/ArcadeLoader';
 
 const siteUrl = 'https://phanvinh.id.vn';
 
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: `try { const saved = localStorage.getItem('portfolio-theme'); const preferred = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.classList.toggle('dark', (saved || preferred) === 'dark'); } catch (error) {}` }} />
       </head>
       <body>
-        <ArcadeLoader />
         <GoogleAnalytics />
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

@@ -1,62 +1,26 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { CARO_SIZE, CaroState, chooseCaroBotMove, createCaroState, playCaroMove } from '@/lib/games/caro';
 
-type Mark = 'X' | 'O' | null;
-const SIZE = 9;
-const emptyBoard = (): Mark[] => Array.from({ length: SIZE * SIZE }, () => null);
-
-function winner(board: Mark[]) {
-  for (let row = 0; row < SIZE; row += 1) for (let col = 0; col < SIZE; col += 1) {
-    const mark = board[row * SIZE + col];
-    if (!mark) continue;
-    const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
-    for (const [dr, dc] of directions) {
-      const cells = [0, 1, 2].map((step) => [row + dr * step, col + dc * step]);
-      if (cells.every(([r, c]) => r >= 0 && r < SIZE && c >= 0 && c < SIZE && board[r * SIZE + c] === mark)) return mark;
-    }
-  }
-  return board.every(Boolean) ? 'draw' : null;
-}
-
-function botMove(board: Mark[]) {
-  const available = board.map((value, index) => value ? null : index).filter((index): index is number => index !== null);
-  const scoreMove = (mark: Mark) => available.find((index) => { const copy = [...board]; copy[index] = mark; return winner(copy) === mark; });
-  return scoreMove('O') ?? scoreMove('X') ?? available.sort((a, b) => Math.abs(40 - a) - Math.abs(40 - b))[0];
-}
+type CaroMode = 'bot' | 'local';
 
 export default function CaroGame() {
-  const [board, setBoard] = useState<Mark[]>(emptyBoard);
-  const [turn, setTurn] = useState<Mark>('X');
-  const [result, setResult] = useState<string | null>(null);
-  const [botThinking, setBotThinking] = useState(false);
-  const status = result ? (result === 'draw' ? 'Draw game.' : `${result === 'X' ? 'You' : 'Bot'} win.`) : botThinking ? 'Bot is thinking…' : turn === 'X' ? 'Your turn.' : 'Bot turn.';
+  const [mode, setMode] = useState<CaroMode>('bot');
+  const [game, setGame] = useState<CaroState>(createCaroState);
+  const botThinking = mode === 'bot' && game.turn === 'O' && !game.result;
+  const status = game.result ? game.result === 'draw' ? 'Draw — the board is full.' : `${game.result === 'X' ? (mode === 'bot' ? 'You' : 'Player 1') : (mode === 'bot' ? 'Bot' : 'Player 2')} wins.` : botThinking ? 'Bot is thinking…' : mode === 'bot' && game.turn === 'O' ? 'Bot turn.' : mode === 'local' ? `${game.turn === 'X' ? 'Player 1' : 'Player 2'} turn.` : 'Your turn.';
 
-  const reset = () => { setBoard(emptyBoard()); setTurn('X'); setResult(null); setBotThinking(false); };
-
-  const play = (index: number) => {
-    if (board[index] || turn !== 'X' || result || botThinking) return;
-    const next = [...board]; next[index] = 'X'; const gameResult = winner(next);
-    setBoard(next);
-    if (gameResult) { setResult(gameResult); return; }
-    setTurn('O'); setBotThinking(true);
-  };
+  const reset = (nextMode = mode) => { setMode(nextMode); setGame(createCaroState());  };
+  const play = (index: number) => { if (game.result || botThinking || (mode === 'bot' && game.turn === 'O')) return; setGame((current) => playCaroMove(current, index)); };
 
   useEffect(() => {
-    if (turn !== 'O' || result) return undefined;
+    if (mode !== 'bot' || game.turn !== 'O' || game.result) return undefined;
     const timer = window.setTimeout(() => {
-      setBoard((current) => {
-        const move = botMove(current); if (move === undefined) return current;
-        const next = [...current]; next[move] = 'O'; const gameResult = winner(next);
-        setResult(gameResult);
-        setTurn(gameResult ? null : 'X'); setBotThinking(false);
-        return next;
-      });
+      setGame((current) => { const move = chooseCaroBotMove(current.board); return move === undefined ? current : playCaroMove(current, move, 'O'); });
     }, 420);
     return () => window.clearTimeout(timer);
-  }, [result, turn]);
+  }, [game.result, game.turn, mode]);
 
-  const filled = useMemo(() => board.filter(Boolean).length, [board]);
-
-  return <div className="mini-game mini-game-caro"><div className="mini-game-head"><div><p className="eyebrow">Caro / 3 in a row</p><h3>Human <em>vs.</em> machine</h3></div><div className="mini-game-score"><span>You <b className="mark-x">X</b></span><span>Bot <b className="mark-o">O</b></span></div></div><div className="caro-board" role="grid" aria-label="Caro board">{board.map((mark, index) => <button key={index} type="button" role="gridcell" aria-label={`Cell ${index + 1}${mark ? ` ${mark}` : ''}`} className={`caro-cell ${mark ? `has-${mark.toLowerCase()}` : ''}`} onClick={() => play(index)} disabled={Boolean(mark) || Boolean(result) || turn !== 'X'}>{mark}</button>)}</div><div className="mini-game-footer"><span>{status} {filled > 0 && !result ? `${filled} moves` : ''}</span><button type="button" onClick={reset}>Reset board ↻</button></div></div>;
+  return <div className="mini-game mini-game-caro"><div className="mini-game-head"><div><p className="eyebrow">Caro / Gomoku 5</p><h3>Five in a row, <em>think ahead.</em></h3></div><div className="mini-game-score"><span>{mode === 'bot' ? 'You' : 'P1'} <b className="mark-x">X</b></span><span>{mode === 'bot' ? 'Bot' : 'P2'} <b className="mark-o">O</b></span></div></div><div className="game-mode-switch" role="group" aria-label="Caro game mode"><button type="button" className={mode === 'bot' ? 'is-active' : ''} onClick={() => reset('bot')}>Play bot</button><button type="button" className={mode === 'local' ? 'is-active' : ''} onClick={() => reset('local')}>2 players</button></div><div className="caro-board caro-board-large" role="grid" aria-label="Caro 9 by 9 board">{game.board.map((mark, index) => <button key={index} type="button" role="gridcell" aria-label={`Row ${Math.floor(index / CARO_SIZE) + 1}, column ${(index % CARO_SIZE) + 1}${mark ? ` ${mark}` : ', empty'}`} className={`caro-cell ${mark ? `has-${mark.toLowerCase()}` : ''}`} onClick={() => play(index)} disabled={Boolean(mark) || Boolean(game.result) || botThinking || (mode === 'bot' && game.turn === 'O')}>{mark}</button>)}</div><div className="mini-game-footer"><span>{status} {game.moves > 0 && !game.result ? `· ${game.moves} moves` : ''}</span><button type="button" onClick={() => reset()}>New match ↻</button></div></div>;
 }

@@ -71,7 +71,23 @@ Sau deploy, dùng các công cụ sau để kiểm tra:
 | Sitemap | Mở `/sitemap.xml`, sau đó submit trong Google Search Console |
 | Robots | Mở `/robots.txt` và xác nhận sitemap trỏ đúng domain |
 
-## 5. Security checklist trước production
+## 5. Kiểm tra arcade offline trước production
+
+Service worker là progressive enhancement và chỉ được đăng ký trên `/play`. Sau khi deploy, mở `/play` một lần khi có mạng, chờ registration hoàn tất trong DevTools Application → Service Workers, sau đó kiểm tra cache storage có shell và asset cùng origin. Có thể mô phỏng offline bằng Network → Offline rồi reload `/play`. Game core vẫn phải render và chạy ở first load bình thường nếu service worker chưa active.
+
+Bốn mode hiện có là Signal Sprint solo, Caro/Gomoku với bot hoặc 2 local players, Sudoku solo và Dots & Boxes với bot hoặc 2–4 local players. “Local” là chuyền cùng thiết bị; production không quảng bá realtime online multiplayer.
+
+Trước khi deploy, chạy release gate:
+
+```bash
+npm run lint
+npm test
+npm run build
+npm audit --audit-level=high
+git diff --check
+```
+
+## 6. Security checklist trước production
 
 Repository là static-first và không có API xử lý dữ liệu người dùng. `next.config.ts` đã thêm các header phòng thủ gồm Content Security Policy, `X-Content-Type-Options`, `X-Frame-Options`, Referrer Policy, Permissions Policy, HSTS và tắt powered-by header.
 

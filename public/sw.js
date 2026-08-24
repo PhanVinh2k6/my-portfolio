@@ -1,30 +1,55 @@
-const CACHE_NAME = 'phanvinh-portfolio-v1';
-const CORE_ROUTES = ['/', '/play'];
+const CACHE_NAME = 'signal-room-v2';
+const PRECACHE_URLS = ['/', '/play', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ROUTES)));
-  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))));
-  self.clients.claim();
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then(() => self.clients.claim()),
+  );
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+
+  if (request.destination === 'document') {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        if (response.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(request, response.clone());
+        }
+        return response;
+      } catch {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        return caches.match(new URL(request.url).pathname.startsWith('/play') ? '/play' : '/');
+      }
+    })());
+    return;
+  }
+
   event.respondWith((async () => {
-    const cached = await caches.match(event.request);
+    const cached = await caches.match(request);
     if (cached) return cached;
     try {
-      const response = await fetch(event.request);
-      if (response.ok && new URL(event.request.url).origin === self.location.origin) {
+      const response = await fetch(request);
+      if (response.ok) {
         const cache = await caches.open(CACHE_NAME);
-        cache.put(event.request, response.clone());
+        await cache.put(request, response.clone());
       }
       return response;
     } catch {
-      if (event.request.mode === 'navigate') return caches.match('/play');
       return new Response('', { status: 503, statusText: 'Offline' });
     }
   })());

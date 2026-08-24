@@ -2,11 +2,22 @@
 
 import { useEffect, useState } from 'react';
 
-export default function ArcadeLoader({ variant = 'boot' }: { variant?: 'boot' | 'play' }) {
+type LoaderVariant = 'boot' | 'play';
+
+export default function ArcadeLoader({ variant = 'boot' }: { variant?: LoaderVariant }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => setVisible(false), variant === 'play' ? 1350 : 1000);
+    let duration = variant === 'play' ? 1350 : 1000;
+    if (variant === 'boot') {
+      try {
+        if (window.sessionStorage.getItem('signal-room-booted')) duration = 0;
+        else window.sessionStorage.setItem('signal-room-booted', '1');
+      } catch {
+        // If storage is unavailable, the boot still degrades to a normal timed overlay.
+      }
+    }
+    const timeout = window.setTimeout(() => setVisible(false), duration);
     return () => window.clearTimeout(timeout);
   }, [variant]);
 
