@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import ThemeToggle from '@/components/ThemeToggle';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -16,6 +18,7 @@ const navItems = [
   { label: 'Work', href: '#work' },
   { label: 'Approach', href: '#approach' },
   { label: 'About', href: '#about' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 const capabilities = [
@@ -120,11 +123,14 @@ export default function Home() {
       <header className={`site-header ${isDarkSection ? 'is-dark' : ''} ${scrolled ? 'is-scrolled' : ''}`}>
         <a href="#top" className="brand-mark" aria-label="Phan Vinh home"><span>PV</span><small>Portfolio / 26</small></a>
         <nav className={`site-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Primary navigation">
-          {navItems.map((item, index) => (
+          {navItems.map((item, index) => item.href.startsWith('#') ? (
             <a key={item.href} href={item.href} onClick={closeMenu} className={activeSection === item.href.slice(1) ? 'is-active' : ''}><span>0{index + 1}</span>{item.label}</a>
+          ) : (
+            <Link key={item.href} href={item.href} onClick={closeMenu}><span>0{index + 1}</span>{item.label}</Link>
           ))}
           <a className="nav-contact" href="#contact" onClick={closeMenu}>Let&apos;s talk <ArrowUpRight size={14} /></a>
         </nav>
+        <ThemeToggle />
         <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
           {menuOpen ? <X size={21} /> : <Menu size={21} />}
         </button>
@@ -159,16 +165,16 @@ export default function Home() {
           <div><h2>Work that makes<br /><em>the complex feel clear.</em></h2><p>Two ongoing explorations across product design, management systems, and applied AI. Each project is a chance to turn a messy problem into a sharper experience.</p></div>
         </div>
         <div className="projects-grid">
-          <a href="https://github.com/PhanVinh2k6" target="_blank" rel="noreferrer" className="project-card project-card-large scroll-reveal" data-reveal>
+          <Link href="/projects/victory-football" className="project-card project-card-large scroll-reveal" data-reveal>
             <ProjectVisual type="football" />
             <div className="project-meta"><div><span>01 — Product system</span><h3>Victory Football</h3><p>A pitch and matchday management system designed to keep teams moving together.</p></div><ArrowUpRight className="project-arrow" size={22} /></div>
-          </a>
-          <a href="https://github.com/PhanVinh2k6" target="_blank" rel="noreferrer" className="project-card scroll-reveal reveal-delay-1" data-reveal>
+          </Link>
+          <Link href="/projects/crm-intelligence" className="project-card scroll-reveal reveal-delay-1" data-reveal>
             <ProjectVisual type="crm" />
             <div className="project-meta"><div><span>02 — AI / Research</span><h3>CRM Intelligence</h3><p>Exploring smarter customer operations with data, automation, and a human point of view.</p></div><ArrowUpRight className="project-arrow" size={22} /></div>
-          </a>
+          </Link>
         </div>
-        <div className="work-footnote scroll-reveal" data-reveal><span>More work is in progress</span><a href="https://github.com/PhanVinh2k6" target="_blank" rel="noreferrer">View GitHub profile <ArrowUpRight size={14} /></a></div>
+        <div className="work-footnote scroll-reveal" data-reveal><span>More work is in progress</span><div className="work-links"><Link href="/blog">Read the notes <ArrowUpRight size={14} /></Link><a href="https://github.com/PhanVinh2k6" target="_blank" rel="noreferrer">View GitHub profile <ArrowUpRight size={14} /></a></div></div>
       </section>
 
       <section id="approach" data-section="approach" className="approach-section">
