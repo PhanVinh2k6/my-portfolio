@@ -58,3 +58,8 @@ Journal and project entries are maintained in `lib/content.ts`. The primary arca
 ## Deployment and security
 
 See [DEPLOY.md](./DEPLOY.md) for Vercel import, GA4 environment configuration, custom domain, social preview and production security checks. The project is static-first and has no user-data API. Security work should remain defensive: dependency audits, CSP/header verification, crawlability and controlled preview checks are appropriate; generating DDoS/DoS traffic is not.
+
+
+## Homepage sections
+
+The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, and the final contact block states availability and the best next step.

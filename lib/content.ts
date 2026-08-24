@@ -147,3 +147,45 @@ export function getProject(slug: string) {
 export function getPost(slug: string) {
   return posts.find((post) => post.slug === slug);
 }
+
+
+export type Capability = {
+  number: string;
+  title: string;
+  description: string;
+  bullets: string[];
+};
+
+export type ProcessStep = {
+  number: string;
+  title: string;
+  description: string;
+};
+
+export const capabilities: Capability[] = [
+  {
+    number: '01',
+    title: 'Product direction',
+    description: 'Từ một bài toán mơ hồ đến một hướng sản phẩm có thể giải thích, thử nghiệm và xây dựng.',
+    bullets: ['Problem framing', 'User flows', 'Information architecture'],
+  },
+  {
+    number: '02',
+    title: 'Frontend systems',
+    description: 'Những giao diện có cấu trúc rõ, phản hồi tốt và đủ bền để không sụp đổ sau màn hình đầu tiên.',
+    bullets: ['React / Next.js', 'Design systems', 'Responsive craft'],
+  },
+  {
+    number: '03',
+    title: 'AI & experiments',
+    description: 'Thử nghiệm công nghệ mới với một câu hỏi con người cụ thể, thay vì chạy theo hiệu ứng trình diễn.',
+    bullets: ['Human-centred AI', 'Prototypes', 'Local-first thinking'],
+  },
+];
+
+export const processSteps: ProcessStep[] = [
+  { number: '01', title: 'Frame the real question', description: 'Làm rõ bối cảnh, người dùng và điều cần trở nên đúng trước khi nói về màn hình.' },
+  { number: '02', title: 'Make the system visible', description: 'Chuyển những quyết định, trạng thái và ưu tiên ẩn thành một cấu trúc có thể cùng nhìn thấy.' },
+  { number: '03', title: 'Prototype the useful part', description: 'Xây một lát cắt đủ thật để kiểm tra hành vi, nội dung và cảm giác sử dụng sớm.' },
+  { number: '04', title: 'Ship with room to grow', description: 'Giữ nền tảng nhẹ, dễ hiểu và có khoảng trống để sản phẩm tiếp tục học sau khi phát hành.' },
+];
