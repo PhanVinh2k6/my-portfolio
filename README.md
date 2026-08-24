@@ -47,3 +47,7 @@ The `/play` route contains **Signal Sprint**, a 20-second reaction mini-game wit
 ## Deployment
 
 See [DEPLOY.md](./DEPLOY.md) for Vercel deployment, GA4 environment setup, custom domain, social preview and production security checklist.
+
+## Arcade game hub
+
+The `/play` route is now an offline-first game hub with four small games: Signal Sprint, Caro vs Bot, Sudoku, and Dots & Boxes. Each game runs entirely in the browser with no account or API dependency. The hub includes a responsive touch-friendly interface, an arcade-machine loading sequence on entry, and a PWA manifest/service worker for returning to the experience offline.
