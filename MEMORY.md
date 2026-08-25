@@ -18,3 +18,8 @@ The homepage and three pure engines have been rewritten locally. The new homepag
 ## Quality heuristics
 
 Prefer short, intentional motion over constant animation. Use `prefers-reduced-motion` to remove non-essential effects. Keep focus styles visible. Validate the actual rendered page at mobile and desktop widths instead of trusting only static markup. If a new change makes a route or game less clear, favor the simpler interaction and document the trade-off.
+
+
+## ReactBits motion integration
+
+ReactBits interaction patterns are implemented locally rather than imported as a heavy runtime. `components/ReactBitsMotion.tsx` provides IntersectionObserver-based `ScrollReveal` and CSS-variable pointer `SpotlightCard`. Static content must remain visible before enhancement, touch devices must not depend on hover, and reduced-motion must disable non-essential transforms and spotlight effects.

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Project } from '@/lib/content';
 import ProjectVisual from './ProjectVisual';
+import { ScrollReveal, SpotlightCard } from './ReactBitsMotion';
 
 export default function ProjectExplorer({ projects }: { projects: Project[] }) {
   const [category, setCategory] = useState('All work');
@@ -17,7 +18,7 @@ export default function ProjectExplorer({ projects }: { projects: Project[] }) {
       <div className="projects-grid">
         {filteredProjects.map((project, index) => (
           <Link href={`/projects/${project.slug}`} key={project.slug} className={`project-card ${index === 0 ? 'project-card-large' : ''} scroll-reveal`}>
-            <ProjectVisual type={project.visual} />
+            <ScrollReveal className="project-card-motion"><SpotlightCard><ProjectVisual type={project.visual} /></SpotlightCard></ScrollReveal>
             <div className="project-meta"><div><span>{project.number} — {project.eyebrow}</span><h3>{project.title}</h3><p>{project.shortDescription}</p></div><ArrowUpRight className="project-arrow" size={22} /></div>
           </Link>
         ))}

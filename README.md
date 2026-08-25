@@ -65,3 +65,8 @@ See [DEPLOY.md](./DEPLOY.md) for Vercel import, GA4 environment configuration, c
 ## Homepage sections
 
 The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, and the final contact block states availability and the best next step. The Play hub leads with two deterministic daily puzzles and keeps the remaining four games available for replay.
+
+
+## Motion layer
+
+The portfolio uses a small local motion layer inspired by ReactBits interaction patterns. Scroll reveals use `IntersectionObserver`, project and hero visuals use a pointer spotlight driven by CSS variables, and static content remains available before JavaScript enhancement. The implementation intentionally avoids a global GSAP runtime, does not depend on hover for touch devices, and respects `prefers-reduced-motion`.
