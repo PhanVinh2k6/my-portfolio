@@ -34,14 +34,14 @@ The six games are deliberately explicit about their supported modes:
 
 | Game | Modes | Rules |
 | --- | --- | --- |
-| Wend | Daily / solo | 5×5 word paths; every letter is used once |
-| Zip | Daily / solo | One path through every cell in marker order |
+| Wend | Daily / solo | 5×5 adjacent word paths; every letter is used once, with Hint and draft Undo/Clear |
+| Zip | Daily / solo | One path through every cell in marker order; marked walls block edges, with Hint and Undo/Clear |
 | Signal Sprint | Solo | Twenty-second reflex game with local best score |
 | Caro / Gomoku | Bot or 2 local players | 9×9 board; five in a row wins |
 | Sudoku | Solo | Engine-backed puzzle, validation, clearing and completion |
 | Dots & Boxes | Bot or 2–4 local players | 3×3 boxes; closing a box awards a point and an extra turn |
 
-“Local players” means people sharing the same device. Wend and Zip use a deterministic UTC daily key, Hint support, completion timers and local-device best times. There is no realtime online multiplayer, account system or fake global leaderboard, and no backend is added solely to imply one.
+“Local players” means people sharing the same device. Wend and Zip use a deterministic UTC daily key, Hint support, completion timers and local-device best times. Zip intentionally does not reveal every legal next move: visible wall segments communicate blocked edges, while exact next-cell guidance appears only after Hint. There is no realtime online multiplayer, account system or fake global leaderboard, and no backend is added solely to imply one.
 
 ## Preserved platform features
 
@@ -69,4 +69,4 @@ The homepage now follows a complete portfolio narrative: selected work establish
 
 ## Motion layer
 
-The portfolio uses a small local motion layer inspired by ReactBits interaction patterns. Scroll reveals use `IntersectionObserver`, project and hero visuals use a pointer spotlight driven by CSS variables, and static content remains available before JavaScript enhancement. The implementation intentionally avoids a global GSAP runtime, does not depend on hover for touch devices, and respects `prefers-reduced-motion`.
+The portfolio uses a small local motion layer inspired by ReactBits interaction patterns. Scroll reveals use `IntersectionObserver`, project and hero visuals use a pointer spotlight driven by CSS variables, and the homepage adds progressive word-level `TextReveal` and pointer-only `Magnetic` CTAs. Static content remains available before JavaScript enhancement. The implementation intentionally avoids a global GSAP runtime, does not depend on hover for touch devices, and respects `prefers-reduced-motion`.

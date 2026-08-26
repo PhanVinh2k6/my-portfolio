@@ -21,13 +21,17 @@ export type ZipState = {
 };
 
 const PATHS: ZipCell[][] = [snakePath(), columnSnakePath()];
+const WALLS: string[][] = [
+  [zipWallKey({ row: 0, col: 0 }, { row: 1, col: 0 }), zipWallKey({ row: 1, col: 1 }, { row: 2, col: 1 })],
+  [zipWallKey({ row: 1, col: 0 }, { row: 1, col: 1 }), zipWallKey({ row: 2, col: 2 }, { row: 2, col: 3 })],
+];
 
 export function getDailyZipPuzzle(dayKey = getDailyKey()): ZipPuzzle {
   const index = dailyIndex(dayKey, 'zip', PATHS.length);
   const path = PATHS[index].map(cloneCell);
   const markers: Record<string, number> = {};
   [0, 5, 10, 15, 20].forEach((pathIndex, markerIndex) => { markers[cellKey(path[pathIndex])] = markerIndex + 1; });
-  return { id: `zip-${dayKey}-${index + 1}`, dayKey, size: 5, path, markers, walls: [] };
+  return { id: `zip-${dayKey}-${index + 1}`, dayKey, size: 5, path, markers, walls: WALLS[index].slice() };
 }
 
 export function createZipState(puzzle = getDailyZipPuzzle()): ZipState {

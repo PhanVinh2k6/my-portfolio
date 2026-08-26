@@ -49,3 +49,22 @@ The Play route rendered all six game tabs with one active tab at `tabIndex=0`, i
 ## Keyboard tab QA
 
 On the Play route, focusing `game-tab-wend` and sending ArrowRight moved selection to `game-tab-zip`, changed the panel to `game-panel-zip`, and moved DOM focus to `game-tab-zip`. This verifies the roving-tabindex behavior expected by the tablist pattern.
+
+
+## Advanced motion responsive QA
+
+The 390px screenshot after the TextReveal wrapping fix shows the hero title breaking naturally across lines without clipping. The serif emphasis remains legible, both CTAs stay within the viewport, and the Magnetic wrapper does not change the mobile vertical rhythm because touch pointers do not apply the transform.
+
+## Wend / Zip browser audit — 26 Aug 2026
+
+Wend runtime check passed: starting the daily puzzle, selecting the first three cells produced a three-letter trace, and Undo reduced it to two cells without clearing the run. The timer started and the live status announced the running state.
+
+Zip runtime check passed: the active daily template rendered two visible wall segments, displayed zero legal-move dots before assistance, and showed zero exact next labels before Hint. After Hint, exactly one cell received the hinted state and one `hint` label appeared. The board exposed 25 grid cells with marker-aware accessible labels.
+
+## Production route and header QA
+
+A clean `next start` instance on port 4190 returned HTTP 200 for `/`, `/play`, `/blog`, a blog detail route, a project detail route, `/manifest.webmanifest`, `/sw.js`, `/sitemap.xml` and `/robots.txt`. The homepage response included Content-Security-Policy, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, Strict-Transport-Security and long-lived static cache headers.
+
+## Final release gate
+
+The final gate passed with ESLint clean, 24 deterministic Vitest tests passing, Next production build generating all 18 routes, `npm audit --audit-level=high` reporting 0 vulnerabilities, and `git diff --check` reporting no whitespace errors. Zip coverage includes solvable daily templates, off-path wall invariants, blocked-edge movement, Hint, Undo and Clear semantics.

@@ -78,7 +78,8 @@ export function getWendWord(puzzle: WendPuzzle, path: WendCell[]): string | null
 }
 
 export function submitWendPath(state: WendState, path: WendCell[]): WendState {
-  if (state.complete || !isWendPathValid(path, state.puzzle.size)) return state.mistakes === state.mistakes + 1 ? state : { ...state, mistakes: state.mistakes + 1, lastHint: null };
+  if (state.complete) return state;
+  if (!isWendPathValid(path, state.puzzle.size)) return { ...state, mistakes: state.mistakes + 1, lastHint: null };
   const wordIndex = state.puzzle.paths.findIndex((solution) => pathKey(solution) === pathKey(path));
   if (wordIndex < 0 || state.found.includes(wordIndex)) return { ...state, mistakes: state.mistakes + 1, lastHint: null };
   const found = [...state.found, wordIndex].sort((left, right) => left - right);

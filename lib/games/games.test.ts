@@ -16,7 +16,7 @@ import {
 } from './dots';
 import { dailyIndex, formatDuration, getDailyKey } from './daily';
 import { applyWendHint, createWendState, getDailyWendPuzzle, getWendCompletionScore, isWendPathValid, submitWendPath } from './wend';
-import { applyZipHint, createZipState, getDailyZipPuzzle, submitZipCell, undoZip, zipWallKey } from './zip';
+import { applyZipHint, clearZip, createZipState, getDailyZipPuzzle, submitZipCell, undoZip, zipWallKey } from './zip';
 import {
   SUDOKU_SOLUTION,
   createSudokuState,
@@ -233,13 +233,14 @@ describe('Zip engine', () => {
     expect(next.path).toHaveLength(25);
   });
 
-  it('supports hint, undo and wall-aware movement primitives', () => {
+  it('supports hint, undo, clear and wall-aware movement primitives', () => {
     const puzzle = getDailyZipPuzzle('2026-08-25');
     const state = createZipState(puzzle);
     const hinted = applyZipHint(state);
     expect(hinted.hintsUsed).toBe(1);
     const started = submitZipCell(state, puzzle.path[0]);
     expect(undoZip(started).path).toHaveLength(0);
+    expect(clearZip({ ...hinted, path: [puzzle.path[0]], mistakes: 2 })).toMatchObject({ path: [], mistakes: 0, hintsUsed: 0, lastHint: null, complete: false });
     expect(zipWallKey({ row: 0, col: 0 }, { row: 0, col: 1 })).toBe('0:0|0:1');
   });
 });
@@ -259,5 +260,21 @@ describe('Daily leaderboard semantics', () => {
       for (const cell of puzzle.path) state = submitZipCell(state, cell);
       expect(state.complete).toBe(true);
     }
+  });
+});
+
+
+describe('Daily puzzle rule hardening', () => {
+  it('keeps Zip walls off every solution edge and blocks a forbidden move', () => {
+    for (const dayKey of ['2026-08-24', '2026-08-25']) {
+      const puzzle = getDailyZipPuzzle(dayKey);
+      const solutionEdges = new Set(puzzle.path.slice(1).map((cell, index) => zipWallKey(puzzle.path[index], cell)));
+      expect(puzzle.walls.every((wall) => !solutionEdges.has(wall))).toBe(true);
+    }
+
+    const puzzle = getDailyZipPuzzle('2026-08-24');
+    const blockedPuzzle = { ...puzzle, walls: [zipWallKey({ row: 0, col: 0 }, { row: 1, col: 0 })] };
+    const started = submitZipCell(createZipState(blockedPuzzle), puzzle.path[0]);
+    expect(submitZipCell(started, { row: 1, col: 0 }).mistakes).toBe(1);
   });
 });
