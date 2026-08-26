@@ -68,3 +68,11 @@ A clean `next start` instance on port 4190 returned HTTP 200 for `/`, `/play`, `
 ## Final release gate
 
 The final gate passed with ESLint clean, 24 deterministic Vitest tests passing, Next production build generating all 18 routes, `npm audit --audit-level=high` reporting 0 vulnerabilities, and `git diff --check` reporting no whitespace errors. Zip coverage includes solvable daily templates, off-path wall invariants, blocked-edge movement, Hint, Undo and Clear semantics.
+
+## Conversion and SEO checklist QA
+
+The homepage browser audit shows three above-the-fold CTAs, exactly five FAQ disclosures, a response-window promise, region-level Maps and Directions links, Privacy and Thank You internal links, and the sticky mobile CTA. The 390px screenshot confirms the hero CTA stack stays within the viewport and the sticky CTA remains readable without horizontal overflow. Custom 404 recovery links were rechecked after clearing the service-worker cache and now render vertically with clear labels.
+
+The checklist release gate added `/privacy` and `/thank-you`, BreadcrumbList/FAQPage/Person/WebSite JSON-LD, a sitemap entry for `/play` and `/privacy`, a noindex directive for Thank You, related case-study links, five non-empty FAQs, region-level Maps/Directions links, and a response window. The final test suite is 25/25 passing. A fresh production instance confirmed HTTP 200 for all public assets/routes, HTTP 404 for an unknown path, FAQPage only on `/`, BreadcrumbList on detail/legal pages, CreativeWork on case studies, and noindex on `/thank-you`.
+
+During 404 visual QA, the browser's current stylesheet was confirmed stale: the loaded CSS asset did not contain the new `.not-found-links` rule while the updated JSX was present. This is consistent with the existing service-worker cache caveat; the cache must be unregistered/cleared before judging a CSS mismatch as a source defect. After unregistering the service worker and deleting the runtime cache, the recovery links rendered as a readable vertical list with supporting labels and a clear primary CTA. The visible issue badge was the local Next development overlay, not page content.

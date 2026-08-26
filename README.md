@@ -64,7 +64,11 @@ See [DEPLOY.md](./DEPLOY.md) for Vercel import, GA4 environment configuration, c
 
 ## Homepage sections
 
-The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, and the final contact block states availability and the best next step. The Play hub leads with two deterministic daily puzzles and keeps the remaining four games available for replay.
+The homepage now follows a complete portfolio narrative: selected work establishes proof, the point-of-view section explains how decisions are made, capabilities clarify the types of help available, the four-step process explains collaboration, Signal Room adds the offline arcade layer, Journal provides ongoing thinking, FAQ answers five common project questions, and the final contact block states availability and the best next step. The Play hub leads with two deterministic daily puzzles and keeps the remaining four games available for replay.
+
+The conversion and trust layer includes a custom recovery 404, three hero CTAs, a sticky mobile contact CTA, breadcrumb navigation on detail/legal pages, related case-study links, a noindex Thank You route, a transparent Privacy Policy, a two-working-day response window, region-level Thai Nguyen Maps/Directions links, FAQPage/Person/WebSite/BreadcrumbList JSON-LD, and a page-aware sitemap. Google Analytics remains opt-in through `NEXT_PUBLIC_GA_ID`; social share images remain available through `/opengraph-image` and `/twitter-image`.
+
+The site intentionally does not invent testimonials, client reviews, a team photo, or a precise office address. Those items need real source material and an explicit location before they should be published. The current profile is a studio of one with a general Thai Nguyen, Vietnam base and remote-first collaboration model.
 
 
 ## Motion layer

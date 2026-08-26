@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import StickyMobileCta from '@/components/StickyMobileCta';
 import { getProject, projects } from '@/lib/content';
 
 const siteUrl = 'https://phanvinh.id.vn';
@@ -31,6 +33,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     <main id="page-content" className="subpage-shell">
       <PageHeader />
       <article className="project-detail">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Selected work', href: '/#work' }, { label: project.title }]} />
         <div className="article-top"><Link href="/#work" className="back-link"><ArrowLeft size={14} /> Selected work</Link><span>{project.number} / {project.eyebrow}</span></div>
         <header className="project-detail-header"><p className="eyebrow">{project.year} <span className="eyebrow-line" /> {project.eyebrow}</p><h1>{project.title}</h1><p>{project.description}</p></header>
         <div className={`detail-artwork detail-artwork-${project.accent}`} aria-label={`${project.title} interface preview`}><div className="detail-artwork-grid" /><div className="detail-artwork-label"><span>Case study / {project.number}</span><strong>{project.title}</strong><small>Designing the useful</small></div><div className="detail-artwork-orbit" /></div>
@@ -38,8 +41,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <div className="case-study-grid"><div className="case-study-label"><span>01</span><small>The challenge</small></div><div><h2>Start with the<br /><em>real problem.</em></h2><p>{project.challenge}</p></div></div>
         <div className="case-study-grid"><div className="case-study-label"><span>02</span><small>The approach</small></div><div><h2>Make every decision<br /><em>earn its place.</em></h2><div className="detail-steps">{project.approach.map((item, index) => <div key={item}><span>0{index + 1}</span><strong>{item}</strong><Check size={16} /></div>)}</div></div></div>
         <div className="case-study-grid outcome-grid"><div className="case-study-label"><span>03</span><small>The outcome</small></div><div><h2>A clearer path<br /><em>forward.</em></h2><p>{project.outcome}</p></div></div>
+        <section className="related-work"><div className="case-study-label"><span>04</span><small>Keep exploring</small></div><div><h2>More useful<br /><em>directions.</em></h2><div className="related-work-list">{projects.filter((item) => item.slug !== project.slug).map((item) => <Link href={`/projects/${item.slug}`} className="related-work-link" key={item.slug}><span>{item.number} / {item.eyebrow}</span><strong>{item.title}</strong><ArrowUpRight size={16} /></Link>)}</div></div></section>
         <div className="article-end"><Link href="/#work" className="back-link"><ArrowLeft size={14} /> Back to work</Link><Link href="/blog" className="text-link">Read the notes <ArrowUpRight size={15} /></Link></div>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'CreativeWork', name: project.title, description: project.description, creator: { '@type': 'Person', name: 'Phan Vinh', url: siteUrl }, url: `${siteUrl}/projects/${project.slug}` }) }} />
       </article>
+      <StickyMobileCta />
       <footer className="subpage-footer"><Link href="/"><ArrowLeft size={14} /> Back to portfolio</Link><span>© 2026 Phan Vinh</span></footer>
     </main>
   );

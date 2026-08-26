@@ -15,6 +15,7 @@ import {
   type DotsPlayer,
 } from './dots';
 import { dailyIndex, formatDuration, getDailyKey } from './daily';
+import { faqs } from '../content';
 import { applyWendHint, createWendState, getDailyWendPuzzle, getWendCompletionScore, isWendPathValid, submitWendPath } from './wend';
 import { applyZipHint, clearZip, createZipState, getDailyZipPuzzle, submitZipCell, undoZip, zipWallKey } from './zip';
 import {
@@ -184,6 +185,11 @@ describe('Sudoku engine', () => {
 
 
 describe('Daily puzzle foundations', () => {
+  it('keeps the public FAQ set complete and non-empty', () => {
+    expect(faqs).toHaveLength(5);
+    expect(faqs.every((faq) => faq.question.length > 10 && faq.answer.length > 20)).toBe(true);
+  });
+
   it('creates stable UTC day keys and bounded seeded indexes', () => {
     expect(getDailyKey(new Date('2026-08-24T23:59:59.000Z'))).toBe('2026-08-24');
     expect(getDailyKey(new Date('2026-08-25T00:00:00.000Z'))).toBe('2026-08-25');

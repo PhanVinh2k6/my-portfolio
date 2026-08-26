@@ -149,6 +149,19 @@ export function getPost(slug: string) {
 }
 
 
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+export const faqs: FaqItem[] = [
+  { question: 'Bạn có nhận dự án freelance không?', answer: 'Có. Mình ưu tiên những dự án nhỏ hoặc giai đoạn đầu cần làm rõ hướng sản phẩm, hệ thống frontend hoặc một prototype đủ thật để kiểm chứng.' },
+  { question: 'Bạn thường bắt đầu một dự án như thế nào?', answer: 'Mình bắt đầu bằng bối cảnh, người dùng và điều cần trở nên đúng. Sau đó mới chuyển các giả định thành flow, cấu trúc và một lát cắt có thể thử.' },
+  { question: 'Bạn làm việc từ đâu?', answer: 'Mình làm việc remote từ Thai Nguyen, Vietnam và phối hợp theo múi giờ Vietnam. Nếu dự án cần một nhịp khác, mình sẽ thống nhất lịch ngay từ đầu.' },
+  { question: 'Bạn dùng công nghệ gì?', answer: 'Tuỳ bài toán, nền tảng thường gồm React, Next.js, TypeScript, design systems, local-first patterns và các thử nghiệm AI có human handoff rõ ràng.' },
+  { question: 'Sau khi gửi email bao lâu bạn phản hồi?', answer: 'Mục tiêu phản hồi là trong vòng 2 ngày làm việc. Nếu câu hỏi cần thêm bối cảnh, mình sẽ trả lời trước bằng một mốc tiếp theo rõ ràng.' },
+];
+
 export type Capability = {
   number: string;
   title: string;

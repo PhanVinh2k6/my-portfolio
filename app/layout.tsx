@@ -54,7 +54,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           '@context': 'https://schema.org',
           '@graph': [
-            { '@type': 'Person', name: 'Phan Vinh', url: siteUrl, jobTitle: 'Product-minded Developer', sameAs: ['https://github.com/PhanVinh2k6'] },
+            { '@type': 'Person', name: 'Phan Vinh', url: siteUrl, jobTitle: 'Product-minded Developer', homeLocation: { '@type': 'Place', name: 'Thai Nguyen, Vietnam' }, areaServed: 'Vietnam', knowsAbout: ['Product direction', 'Frontend systems', 'AI experiments'], sameAs: ['https://github.com/PhanVinh2k6'] },
             { '@type': 'WebSite', name: 'Phan Vinh Portfolio', url: siteUrl, inLanguage: 'vi-VN' },
           ],
         }) }} />
