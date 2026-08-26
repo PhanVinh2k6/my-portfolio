@@ -9,6 +9,7 @@ import OfflineRegistration from '@/components/OfflineRegistration';
 export const metadata: Metadata = {
   title: 'Play — Offline game hub',
   description: 'Signal Room là game hub offline-first với daily puzzle Wend và Zip, Hint, timer, local leaderboard cùng bốn trò chơi replay.',
+  alternates: { canonical: 'https://phanvinh.id.vn/play' },
 };
 
 export default function PlayPage() {

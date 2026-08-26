@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import { getProject, projects } from '@/lib/content';
 
+const siteUrl = 'https://phanvinh.id.vn';
+
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
@@ -13,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: project?.title ?? 'Project',
     description: project?.shortDescription ?? 'Selected project by Phan Vinh.',
+    alternates: { canonical: project ? `${siteUrl}/projects/${slug}` : siteUrl },
   };
 }
 

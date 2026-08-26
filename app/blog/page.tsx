@@ -7,6 +7,7 @@ import { posts } from '@/lib/content';
 export const metadata = {
   title: 'Blog',
   description: 'Những ghi chú về product thinking, thiết kế giao diện và AI experiments của Phan Vinh.',
+  alternates: { canonical: 'https://phanvinh.id.vn/blog' },
 };
 
 export default function BlogPage() {
