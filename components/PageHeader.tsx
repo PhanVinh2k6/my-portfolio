@@ -17,7 +17,9 @@ export default function PageHeader() {
   const close = () => setMenuOpen(false);
 
   return (
-    <header className={`new-header new-header-subpage ${menuOpen ? 'is-open' : ''}`}>
+    <>
+      <a className="skip-link" href="#page-content">Skip to content</a>
+      <header className={`new-header new-header-subpage ${menuOpen ? 'is-open' : ''}`}>
       <Link href="/" className="new-brand" aria-label="Phan Vinh home" onClick={close}><span>PV</span><small>Signal Room / 26</small></Link>
       <nav className="new-nav" aria-label="Page navigation">
         {navigation.map((item) => <Link key={item.href} href={item.href} onClick={close}><small>{item.number}</small>{item.label}</Link>)}
@@ -25,6 +27,7 @@ export default function PageHeader() {
       </nav>
       <ThemeToggle />
       <button className="new-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X size={18} /> : <Menu size={18} />}</button>
-    </header>
+      </header>
+    </>
   );
 }

@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function BlogPage() {
   return (
-    <main className="subpage-shell">
+    <main id="page-content" className="subpage-shell">
       <PageHeader />
       <div className="subpage-hero page-grid blog-hero">
         <div className="section-kicker"><span>05</span><span>Personal notes</span></div>

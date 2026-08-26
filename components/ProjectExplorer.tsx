@@ -14,7 +14,7 @@ export default function ProjectExplorer({ projects }: { projects: Project[] }) {
 
   return (
     <div className="project-explorer">
-      <div className="project-filter-bar"><div className="filter-label"><SlidersHorizontal size={15} /><span>Filter work</span></div><div className="filter-chips" role="group" aria-label="Filter projects by category">{categories.map((item) => <button key={item} type="button" className={category === item ? 'is-active' : ''} onClick={() => setCategory(item)}>{item}</button>)}</div><span className="filter-result-count">{filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}</span></div>
+      <div className="project-filter-bar"><div className="filter-label"><SlidersHorizontal size={15} /><span>Filter work</span></div><div className="filter-chips" role="group" aria-label="Filter projects by category">{categories.map((item) => <button key={item} type="button" className={category === item ? 'is-active' : ''} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div><span className="filter-result-count" aria-live="polite">{filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}</span></div>
       <div className="projects-grid">
         {filteredProjects.map((project, index) => (
           <Link href={`/projects/${project.slug}`} key={project.slug} className={`project-card ${index === 0 ? 'project-card-large' : ''} scroll-reveal`}>

@@ -23,9 +23,9 @@ export default function BlogExplorer({ posts }: { posts: Post[] }) {
     <div className="blog-explorer">
       <div className="blog-controls">
         <label className="search-field"><Search size={17} /><span className="sr-only">Search notes</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search notes..." type="search" />{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search"><X size={15} /></button>}</label>
-        <div className="filter-chips" role="group" aria-label="Filter notes by category">{categories.map((item) => <button key={item} type="button" className={category === item ? 'is-active' : ''} onClick={() => setCategory(item)}>{item}</button>)}</div>
+        <div className="filter-chips" role="group" aria-label="Filter notes by category">{categories.map((item) => <button key={item} type="button" className={category === item ? 'is-active' : ''} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div>
       </div>
-      <div className="filter-result-count">{filteredPosts.length} {filteredPosts.length === 1 ? 'note' : 'notes'} found</div>
+      <div className="filter-result-count" aria-live="polite">{filteredPosts.length} {filteredPosts.length === 1 ? 'note' : 'notes'} found</div>
       <div className="blog-list-results">
         {filteredPosts.map((post) => (
           <Link href={`/blog/${post.slug}`} key={post.slug} className="blog-row">

@@ -21,11 +21,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const project = getProject(slug);
 
   if (!project) {
-    return <main className="subpage-shell"><PageHeader /><div className="not-found"><p className="eyebrow">404 / Not found</p><h1>This project went<br /><em>somewhere else.</em></h1><Link href="/#work" className="button button-dark">Back to work <ArrowUpRight size={16} /></Link></div></main>;
+    return <main id="page-content" className="subpage-shell"><PageHeader /><div className="not-found"><p className="eyebrow">404 / Not found</p><h1>This project went<br /><em>somewhere else.</em></h1><Link href="/#work" className="button button-dark">Back to work <ArrowUpRight size={16} /></Link></div></main>;
   }
 
   return (
-    <main className="subpage-shell">
+    <main id="page-content" className="subpage-shell">
       <PageHeader />
       <article className="project-detail">
         <div className="article-top"><Link href="/#work" className="back-link"><ArrowLeft size={14} /> Selected work</Link><span>{project.number} / {project.eyebrow}</span></div>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function PlayPage() {
   return (
-    <main className="subpage-shell play-shell"><OfflineRegistration />
+    <main id="page-content" className="subpage-shell play-shell"><OfflineRegistration />
       <PageHeader />
       <div className="play-hero page-grid"><div className="section-kicker"><span>06</span><span>Small side web</span></div><div><p className="eyebrow"><WifiOff size={13} /> Offline-ready experiment</p><h1>Play<br /><em>mode.</em></h1><p className="subpage-intro">Sáu trò chơi nhỏ, một game room yên tĩnh. Mỗi ngày có Wend và Zip mới; bốn game còn lại luôn sẵn để chơi lại — kể cả khi mất mạng.</p></div></div>
       <ArcadeLoader variant="play" />

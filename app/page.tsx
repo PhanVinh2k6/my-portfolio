@@ -25,7 +25,7 @@ export default function Home() {
 
   const close = () => setMenuOpen(false);
 
-  return <main className="new-site-shell">
+  return <main id="main-content" className="new-site-shell"><a className="skip-link" href="#work">Skip to content</a>
     <ArcadeLoader />
     <header className={`new-header ${menuOpen ? 'is-open' : ''}`}>
       <Link href="#top" className="new-brand" aria-label="Phan Vinh home"><span>PV</span><small>Signal Room / 26</small></Link>
