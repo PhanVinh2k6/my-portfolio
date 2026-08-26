@@ -10,9 +10,15 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem('portfolio-theme') as Theme | null;
+    let saved: Theme | null = null;
+    try {
+      const stored = window.localStorage.getItem('portfolio-theme');
+      saved = stored === 'dark' || stored === 'light' ? stored : null;
+    } catch {
+      saved = null;
+    }
     const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initial = saved === 'dark' || saved === 'light' ? saved : preferred;
+    const initial = saved ?? preferred;
     document.documentElement.classList.toggle('dark', initial === 'dark');
     requestAnimationFrame(() => {
       setTheme(initial);
@@ -23,7 +29,11 @@ export default function ThemeToggle() {
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
-    window.localStorage.setItem('portfolio-theme', next);
+    try {
+      window.localStorage.setItem('portfolio-theme', next);
+    } catch {
+      // Continue toggling the current session even if storage is unavailable.
+    }
     document.documentElement.classList.toggle('dark', next === 'dark');
   };
 

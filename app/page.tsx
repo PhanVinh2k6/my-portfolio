@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowDownRight, ArrowUpRight, Github, Linkedin, Mail, Menu, Sparkles, X } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import ProjectExplorer from '@/components/ProjectExplorer';
@@ -15,6 +15,8 @@ const navItems = [{ label: 'Work', href: '#work' }, { label: 'Journal', href: '#
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('work');
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const sections = [...document.querySelectorAll<HTMLElement>('[data-home-section]')];
@@ -25,13 +27,32 @@ export default function Home() {
 
   const close = () => setMenuOpen(false);
 
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen);
+    return () => document.body.classList.remove('menu-open');
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const handleKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', handleKeyDown);
+    navRef.current?.querySelector<HTMLElement>('a')?.focus();
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const button = menuButtonRef.current;
+    return () => button?.focus();
+  }, [menuOpen]);
+
   return <main id="main-content" className="new-site-shell"><a className="skip-link" href="#work">Skip to content</a>
     <ArcadeLoader />
     <header className={`new-header ${menuOpen ? 'is-open' : ''}`}>
       <Link href="#top" className="new-brand" aria-label="Phan Vinh home"><span>PV</span><small>Signal Room / 26</small></Link>
-      <nav className="new-nav" aria-label="Primary navigation">{navItems.map((item, index) => item.href.startsWith('#') ? <a key={item.href} href={item.href} onClick={close} className={active === item.href.slice(1) ? 'is-active' : ''}><small>0{index + 1}</small>{item.label}</a> : <Link key={item.href} href={item.href} onClick={close}><small>0{index + 1}</small>{item.label}</Link>)}<a href="#contact" onClick={close} className="new-nav-contact">Start a conversation <ArrowUpRight size={14} /></a></nav>
+      <nav id="primary-navigation" ref={navRef} className="new-nav" aria-label="Primary navigation">{navItems.map((item, index) => item.href.startsWith('#') ? <a key={item.href} href={item.href} onClick={close} className={active === item.href.slice(1) ? 'is-active' : ''}><small>0{index + 1}</small>{item.label}</a> : <Link key={item.href} href={item.href} onClick={close}><small>0{index + 1}</small>{item.label}</Link>)}<a href="#contact" onClick={close} className="new-nav-contact">Start a conversation <ArrowUpRight size={14} /></a></nav>
       <ThemeToggle />
-      <button className="new-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X size={18} /> : <Menu size={18} />}</button>
+      <button ref={menuButtonRef} className="new-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X size={18} /> : <Menu size={18} />}</button>
     </header>
 
     <section id="top" className="new-hero" aria-labelledby="hero-title"><div className="new-hero-kicker"><span><i /> Independent developer / product thinker</span><span>Thai Nguyen, VN / 2026</span></div><div className="new-hero-grid"><div className="new-hero-copy"><p className="new-eyebrow">A small studio of one <Sparkles size={14} /></p><h1 id="hero-title">Interfaces that feel like <em>a good idea.</em></h1><p className="new-hero-lede">I&apos;m Phan Vinh — I turn complex workflows, early product questions and curious experiments into things people can understand and use.</p><div className="new-hero-actions"><a className="new-button new-button-dark" href="#work">See the work <ArrowDownRight size={17} /></a><Link className="new-text-link" href="/play">Enter Signal Room <ArrowUpRight size={15} /></Link></div></div><div className="new-hero-art"><div className="art-label"><span>Signal / 001</span><span>Made for the useful</span></div><SpotlightCard className="hero-spotlight"><div className="art-image-wrap"><Image src="/arcade-keyvisual.webp" alt="Cobalt tabletop arcade machine with a luminous signal on screen" fill priority sizes="(max-width: 800px) 100vw, 45vw" /></div></SpotlightCard><div className="art-caption"><strong>Play is a serious<br />way to learn.</strong><span>Scroll down<br />to explore ↓</span></div></div></div></section>
