@@ -1,4 +1,4 @@
-const CACHE_NAME = 'signal-room-v2';
+const CACHE_NAME = 'signal-room-v3';
 const PRECACHE_URLS = ['/', '/play', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

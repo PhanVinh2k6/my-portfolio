@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -41,7 +42,7 @@ export default function PageHeader() {
     <>
       <a className="skip-link" href="#page-content">Skip to content</a>
       <header className={`new-header new-header-subpage ${menuOpen ? 'is-open' : ''}`}>
-      <Link href="/" className="new-brand" aria-label="Phan Vinh home" onClick={close}><span>PV</span><small>Signal Room / 26</small></Link>
+      <Link href="/" className="new-brand" aria-label="Phan Vinh home" onClick={close}><span className="new-brand-mark"><Image src="/phan-vinh-avatar.webp" alt="" width={42} height={42} priority /></span><span className="new-brand-copy"><small>Signal Room / 26</small></span></Link>
       <nav id="primary-navigation" ref={navRef} className="new-nav" aria-label="Page navigation">
         {navigation.map((item) => <Link key={item.href} href={item.href} onClick={close}><small>{item.number}</small>{item.label}</Link>)}
         <Link href="/#contact" className="new-nav-contact" onClick={close}>Start a conversation <ArrowUpRight size={14} /></Link>

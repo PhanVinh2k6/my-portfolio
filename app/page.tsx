@@ -50,7 +50,7 @@ export default function Home() {
   return <main id="main-content" className="new-site-shell"><a className="skip-link" href="#work">Skip to content</a>
     <ArcadeLoader />
     <header className={`new-header ${menuOpen ? 'is-open' : ''}`}>
-      <Link href="#top" className="new-brand" aria-label="Phan Vinh home"><span>PV</span><small>Signal Room / 26</small></Link>
+      <Link href="#top" className="new-brand" aria-label="Phan Vinh home"><span className="new-brand-mark"><Image src="/phan-vinh-avatar.webp" alt="" width={42} height={42} priority /></span><span className="new-brand-copy"><small>Signal Room / 26</small></span></Link>
       <nav id="primary-navigation" ref={navRef} className="new-nav" aria-label="Primary navigation">{navItems.map((item, index) => item.href.startsWith('#') ? <a key={item.href} href={item.href} onClick={close} className={active === item.href.slice(1) ? 'is-active' : ''}><small>0{index + 1}</small>{item.label}</a> : <Link key={item.href} href={item.href} onClick={close}><small>0{index + 1}</small>{item.label}</Link>)}<a href="#contact" onClick={close} className="new-nav-contact">Start a conversation <ArrowUpRight size={14} /></a></nav>
       <ThemeToggle />
       <button ref={menuButtonRef} className="new-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X size={18} /> : <Menu size={18} />}</button>

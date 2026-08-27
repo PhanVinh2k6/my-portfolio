@@ -41,9 +41,7 @@ html.dark { color-scheme: dark; --paper: #111313; --paper-deep: #1b1e1f; --ink: 
 .new-site-shell { min-height: 100vh; overflow: hidden; background: var(--paper); color: var(--ink); }
 .new-header { position: fixed; z-index: 30; top: 0; right: 0; left: 0; display: flex; align-items: flex-start; justify-content: space-between; width: min(100% - 3rem, 1380px); margin: 0 auto; padding: 1.45rem 0; }
 .new-header-subpage { width: 100%; padding-right: max(1.5rem, calc((100% - 1380px) / 2)); padding-left: max(1.5rem, calc((100% - 1380px) / 2)); background: rgba(245,242,235,.9); border-bottom: 1px solid rgba(23,24,23,.08); backdrop-filter: blur(16px); }
-.new-brand { display: flex; flex-direction: column; gap: .3rem; line-height: 1; }
-.new-brand span { color: var(--blue); font-size: 1.4rem; font-weight: 900; letter-spacing: -.12em; }
-.new-brand small { color: var(--muted); font-size: .54rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.new-brand { display: flex; align-items: center; gap: .65rem; line-height: 1; }.new-brand-mark { display: grid; width: 2.55rem; height: 2.55rem; flex: 0 0 auto; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 50%; background: var(--blue); }.new-brand-mark img { width: 100%; height: 100%; object-fit: cover; }.new-brand-copy { display: flex; flex-direction: column; gap: .3rem; color: var(--blue); font-size: 1.4rem; font-weight: 900; letter-spacing: -.12em; }.new-brand-copy small { color: var(--muted); font-size: .54rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .new-nav { display: flex; align-items: center; gap: clamp(1rem, 2.8vw, 3.2rem); padding-top: .3rem; }
 .new-nav a { display: flex; align-items: center; gap: .45rem; color: var(--ink); font-size: .62rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; transition: color 180ms ease; }
 .new-nav a:hover, .new-nav a.is-active { color: var(--blue); }
