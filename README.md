@@ -70,7 +70,7 @@ The conversion and trust layer includes a custom recovery 404, three hero CTAs, 
 
 The site intentionally does not invent testimonials, client reviews, a team photo, or a precise office address. Those items need real source material and an explicit location before they should be published. The current profile is a studio of one with a general Thai Nguyen, Vietnam base and remote-first collaboration model.
 
-The website logo now uses the supplied Phan Vinh portrait as a transparent avatar in `public/phan-vinh-avatar.webp`. `app/favicon.ico`, `public/icon-192.png`, `public/icon-512.png` and `public/apple-touch-icon.png` are generated from the same image, and `app/manifest.ts` exposes all PWA icon sizes. The service worker cache is bumped to `signal-room-v3` so returning offline clients refresh the branding assets.
+The website logo now uses the supplied Phan Vinh portrait as a transparent avatar in `public/phan-vinh-avatar.webp`. The arcade boot/play loader uses the same portrait instead of the former `PV` text mark, with a restrained scanline, ring glow and float effect that is disabled under reduced motion. `app/favicon.ico`, `public/icon-192.png`, `public/icon-512.png` and `public/apple-touch-icon.png` are generated from the same alpha-preserving source, and `app/manifest.ts` exposes all PWA icon sizes. The service worker cache is bumped to `signal-room-v3` so returning offline clients refresh the branding assets.
 
 
 ## Motion layer

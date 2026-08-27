@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type LoaderVariant = 'boot' | 'play';
@@ -27,7 +28,7 @@ export default function ArcadeLoader({ variant = 'boot' }: { variant?: LoaderVar
     <div className={`arcade-loader arcade-loader-${variant}`} role="status" aria-live="polite">
       <div className="arcade-loader-screen">
         <div className="arcade-loader-top"><span>PV-26</span><span>{variant === 'play' ? 'PLAY MODE' : 'SYSTEM BOOT'}</span></div>
-        <div className="arcade-loader-machine"><div className="arcade-loader-screen-inner"><span className="arcade-loader-scanline" /><strong>PV</strong><em>{variant === 'play' ? 'INSERT FUN' : 'LOADING WORLD'}</em></div><div className="arcade-loader-controls"><i /><i /><i /><b /><b /></div></div>
+        <div className="arcade-loader-machine"><div className="arcade-loader-screen-inner"><span className="arcade-loader-scanline" /><div className="arcade-loader-logo" role="img" aria-label="Phan Vinh logo"><Image src="/phan-vinh-avatar.webp" alt="" fill priority sizes="(max-width: 680px) 42vw, 300px" /></div><em>{variant === 'play' ? 'INSERT FUN' : 'LOADING WORLD'}</em></div><div className="arcade-loader-controls"><i /><i /><i /><b /><b /></div></div>
         <div className="arcade-loader-progress"><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /></div>
         <p>{variant === 'play' ? 'Choosing your next small adventure' : 'Building digital products with clarity'}</p>
       </div>
