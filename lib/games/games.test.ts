@@ -15,6 +15,7 @@ import {
   type DotsPlayer,
 } from './dots';
 import { dailyIndex, formatDuration, getDailyKey } from './daily';
+import { FLAPPY_BIRD_RADIUS, FLAPPY_BIRD_X, FLAPPY_GROUND_HEIGHT, FLAPPY_PIPE_GAP, FLAPPY_WORLD, createFlappyPipe, getFlappyGapTop, isBirdCollidingWithPipe, isBirdOutOfBounds } from './flappy';
 import { faqs } from '../content';
 import { applyWendHint, createWendState, getDailyWendPuzzle, getWendCompletionScore, isWendPathValid, submitWendPath } from './wend';
 import { applyZipHint, clearZip, createZipState, getDailyZipPuzzle, submitZipCell, undoZip, zipWallKey } from './zip';
@@ -269,6 +270,27 @@ describe('Daily leaderboard semantics', () => {
   });
 });
 
+
+describe('Flappy Bird engine helpers', () => {
+  it('keeps gap generation deterministic and inside the playable field', () => {
+    expect(getFlappyGapTop(0)).toBe(getFlappyGapTop(7));
+    expect(getFlappyGapTop(-1)).toBeGreaterThan(0);
+    expect(getFlappyGapTop(6) + FLAPPY_PIPE_GAP).toBeLessThan(FLAPPY_WORLD.height - FLAPPY_GROUND_HEIGHT);
+  });
+
+  it('detects ceiling and ground bounds without flagging a centered bird', () => {
+    expect(isBirdOutOfBounds({ x: FLAPPY_BIRD_X, y: 220, radius: FLAPPY_BIRD_RADIUS })).toBe(false);
+    expect(isBirdOutOfBounds({ x: FLAPPY_BIRD_X, y: FLAPPY_BIRD_RADIUS - 1, radius: FLAPPY_BIRD_RADIUS })).toBe(true);
+    expect(isBirdOutOfBounds({ x: FLAPPY_BIRD_X, y: FLAPPY_WORLD.height - FLAPPY_GROUND_HEIGHT, radius: FLAPPY_BIRD_RADIUS })).toBe(true);
+  });
+
+  it('collides with pipe bodies but allows a bird inside the gap or outside the pipe x-range', () => {
+    const pipe = createFlappyPipe(FLAPPY_BIRD_X - 20, 120);
+    expect(isBirdCollidingWithPipe({ x: FLAPPY_BIRD_X, y: 180, radius: FLAPPY_BIRD_RADIUS }, pipe)).toBe(false);
+    expect(isBirdCollidingWithPipe({ x: FLAPPY_BIRD_X, y: 90, radius: FLAPPY_BIRD_RADIUS }, pipe)).toBe(true);
+    expect(isBirdCollidingWithPipe({ x: FLAPPY_BIRD_X + 100, y: 90, radius: FLAPPY_BIRD_RADIUS }, pipe)).toBe(false);
+  });
+});
 
 describe('Daily puzzle rule hardening', () => {
   it('keeps Zip walls off every solution edge and blocks a forbidden move', () => {
